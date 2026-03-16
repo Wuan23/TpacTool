@@ -1,15 +1,20 @@
 # TpacTool
+
 ### An unofficial asset explorer for *Mount&Blade II: Bannerlord*
+
+[中文](README.zh-CN.md)
+
+---
 
 <a href="https://ci.appveyor.com/project/hunharibo/TpacTool">
 	<img src="https://img.shields.io/appveyor/build/hunharibo/TpacTool/master.svg" />
 </a>
 
-<a href="../../releases/latest">
+<a href="https://github.com/Wuan23/TpacTool/releases/latest">
 	<img src="https://img.shields.io/github/v/release/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
-<a href="../../blob/master/LICENSE">
+<a href="https://github.com/Wuan23/TpacTool/blob/master/LICENSE">
 	<img src="https://img.shields.io/github/license/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
@@ -38,4 +43,4 @@ Export any single asset (model, material, texture, skeleton, animation, etc.) as
 
 #### License
 
-This project is licensed under the MIT License. See [LICENSE](../../blob/master/LICENSE) for details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

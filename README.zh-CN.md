@@ -5,11 +5,11 @@
 	<img src="https://img.shields.io/appveyor/build/hunharibo/TpacTool/master.svg" />
 </a>
 
-<a href="../../releases/latest">
+<a href="https://github.com/Wuan23/TpacTool/releases/latest">
 	<img src="https://img.shields.io/github/v/release/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
-<a href="../../blob/master/LICENSE">
+<a href="https://github.com/Wuan23/TpacTool/blob/master/LICENSE">
 	<img src="https://img.shields.io/github/license/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
@@ -36,8 +36,6 @@ Fork 自 [szszss/TpacTool](https://github.com/szszss/TpacTool)，由 [hunharibo]
 ##### 单资源导出
 将任意单个资源（模型、材质、纹理、骨骼、动画等）直接导出为独立的 .tpac 文件。
 
-<img src="assets/single_asset_export.png" alt="single_asset_export" width="800" />
-
 #### 许可证
 
-本项目采用 MIT 许可证开源。详见 [LICENSE](../../blob/master/LICENSE)。
+本项目采用 MIT 许可证开源。详见 [LICENSE](LICENSE)。
