@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using OpenTK;
@@ -17,6 +17,8 @@ namespace TpacTool
 
 		public static Shader MeshShader { get; private set; }
 
+		public static Shader LinesShader { get; private set; }
+
 		public static void Init()
 		{
 			try
@@ -25,6 +27,7 @@ namespace TpacTool
 				ImageShader = new Shader(nameof(ImageShader), SOURCE_IMAGE_VERTEX, SOURCE_IMAGE_FRAGMENT);
 				GridShader = new Shader(nameof(GridShader), SOURCE_GRID_VERTEX, SOURCE_GRID_FRAGMENT);
 				MeshShader = new Shader(nameof(MeshShader), SOURCE_MESH_VERTEX, SOURCE_MESH_FRAGMENT);
+				LinesShader = new Shader(nameof(LinesShader), SOURCE_LINES_VERTEX, SOURCE_LINES_FRAGMENT);
 			}
 			catch (ShaderException e)
 			{
@@ -403,6 +406,33 @@ void main()
 	}
 	light = min(light, 1.0);
 	outColor.rgb *= light;
+}
+";
+
+		private const string SOURCE_LINES_VERTEX = @"
+#version 330 core
+
+layout (location = 0) in vec3 vPosition;
+
+uniform mat4 vpMatrix;
+uniform mat4 worldMatrix;
+
+void main()
+{
+	gl_Position = vpMatrix * worldMatrix * vec4(vPosition, 1.0f);
+}
+";
+
+		private const string SOURCE_LINES_FRAGMENT = @"
+#version 330 core
+
+out vec4 outColor;
+
+uniform vec4 color;
+
+void main()
+{
+	outColor = color;
 }
 ";
 	}

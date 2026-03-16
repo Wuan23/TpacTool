@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using SystemHalf;
@@ -147,16 +147,23 @@ namespace TpacTool.Lib
                 UnknownUint7 = stream.ReadUInt32();
             }
 
-            // Handle generated assets (since version 1 or when there's exactly 4 bytes remaining)
+            // Handle generated assets - only read if there's enough data
             GeneratedAssets = new List<Tuple<Guid, Guid>>();
             var currentPos = stream.BaseStream.Position;
             var bytesRead = currentPos - startPos;
             var remaining = totalSize - bytesRead;
 
-            // Check if we should read generated assets
-            if (version >= 1 || remaining == 4)
+            // Only read generated assets if there's at least 4 bytes and the condition makes sense
+            if (remaining >= 4 && (version >= 1 || remaining == 4))
             {
                 var numPair = stream.ReadUInt32();
+                // Sanity check: don't read more than reasonable
+                var maxPairs = remaining / 32; // Each pair is 32 bytes (16+16)
+                if (numPair > maxPairs)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Warning: Texture {Name} has invalid numPair={numPair}, limiting to {maxPairs}");
+                    numPair = (uint)maxPairs;
+                }
                 for (int i = 0; i < numPair; i++)
                 {
                     GeneratedAssets.Add(Tuple.Create(stream.ReadGuid(), stream.ReadGuid()));
@@ -191,11 +198,9 @@ namespace TpacTool.Lib
             }
             else if (remaining < 0)
             {
-#if DEBUG
-				// This indicates we read too much - this is a serious error
-				throw new InvalidDataException($"Texture metadata read {-remaining} bytes beyond expected size. " +
+                // Read too much - log warning and continue
+                System.Diagnostics.Debug.WriteLine($"Warning: Texture metadata read {-remaining} bytes beyond expected size. " +
                     $"Asset: {Name}, Expected: {totalSize}, Position: {currentPos}, Start: {startPos}");
-#endif
             }
         }
 

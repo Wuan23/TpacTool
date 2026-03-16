@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -58,6 +58,67 @@ namespace TpacTool.Lib
 			Textures = new SortedDictionary<int, AssetDependence<Texture>>();
 			ShaderMaterialFlags = new List<string>();
 			ExtraMaterialSettings = new ExtraMaterialSetting();
+		}
+
+		public override void WriteMetadata(BinaryWriter stream)
+		{
+			stream.Write(Version);
+			stream.Write(BillboardGuid);
+			stream.Write((uint)2); // subVersion
+			stream.Write(UnknownUint1);
+			stream.WriteStringList(Flags);
+			stream.Write(UnknownUint2);
+			stream.WriteStringList(VertexLayoutFlags);
+			stream.WriteSizedString(BlendMode);
+			stream.Write(Shader.Guid);
+			stream.Write(Textures.Count);
+			foreach (var kvp in Textures)
+			{
+				stream.Write(kvp.Key);
+				stream.Write(kvp.Value.Guid);
+			}
+			stream.Write(AlphaTest);
+			stream.WriteStringList(ShaderMaterialFlags);
+			ExtraMaterialSettings.Save(stream);
+		}
+
+		public override AssetItem Clone()
+		{
+			var clone = new Material();
+			CloneDo(clone);
+			clone.BillboardGuid = BillboardGuid;
+			clone.UnknownUint1 = UnknownUint1;
+			clone.Flags = new List<string>(Flags);
+			clone.UnknownUint2 = UnknownUint2;
+			clone.VertexLayoutFlags = new List<string>(VertexLayoutFlags);
+			clone.BlendMode = BlendMode;
+			clone.Shader = new AssetDependence<Shader>(Shader.Guid);
+			foreach (var kvp in Textures)
+			{
+				clone.Textures[kvp.Key] = new AssetDependence<Texture>(kvp.Value.Guid);
+			}
+			clone.AlphaTest = AlphaTest;
+			clone.ShaderMaterialFlags = new List<string>(ShaderMaterialFlags);
+			clone.ExtraMaterialSettings = new ExtraMaterialSetting
+			{
+				AreamapScale = ExtraMaterialSettings.AreamapScale,
+				AreamapAmount = ExtraMaterialSettings.AreamapAmount,
+				DetailnormalScale = ExtraMaterialSettings.DetailnormalScale,
+				NormalmapPower = ExtraMaterialSettings.NormalmapPower,
+				MeshVectorArgument = ExtraMaterialSettings.MeshVectorArgument,
+				MeshVectorArgument2 = ExtraMaterialSettings.MeshVectorArgument2,
+				MeshFactorColorMultiplier = ExtraMaterialSettings.MeshFactorColorMultiplier,
+				MeshFactor2ColorMultiplier = ExtraMaterialSettings.MeshFactor2ColorMultiplier,
+				RenderOrder = ExtraMaterialSettings.RenderOrder,
+				MipmapBias = ExtraMaterialSettings.MipmapBias,
+				SpecularCoef = ExtraMaterialSettings.SpecularCoef,
+				GlossCoef = ExtraMaterialSettings.GlossCoef,
+				ParallaxAmount = ExtraMaterialSettings.ParallaxAmount,
+				ParallaxOffset = ExtraMaterialSettings.ParallaxOffset,
+				AmbientOcclusionCoef = ExtraMaterialSettings.AmbientOcclusionCoef,
+				ExposureCompensation = ExtraMaterialSettings.ExposureCompensation
+			};
+			return clone;
 		}
 
 		public override void ReadMetadata(BinaryReader stream, int totalSize)
@@ -142,6 +203,26 @@ namespace TpacTool.Lib
 				AmbientOcclusionCoef = stream.ReadSingle();
 				if (subVersion >= 2) // since 1.8.0
 					ExposureCompensation = stream.ReadSingle();
+			}
+
+			internal void Save(BinaryWriter stream)
+			{
+				stream.Write(AreamapScale);
+				stream.Write(AreamapAmount);
+				stream.Write(DetailnormalScale);
+				stream.Write(NormalmapPower);
+				stream.Write(MeshVectorArgument);
+				stream.Write(MeshVectorArgument2);
+				stream.Write(MeshFactorColorMultiplier);
+				stream.Write(MeshFactor2ColorMultiplier);
+				stream.Write(RenderOrder);
+				stream.Write(MipmapBias);
+				stream.Write(SpecularCoef);
+				stream.Write(GlossCoef);
+				stream.Write(ParallaxAmount);
+				stream.Write(ParallaxOffset);
+				stream.Write(AmbientOcclusionCoef);
+				stream.Write(ExposureCompensation);
 			}
 		}
 	}

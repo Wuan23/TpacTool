@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -18,6 +20,8 @@ namespace TpacTool
 	{
 		public static readonly Guid AssetSelectedEvent = Guid.NewGuid();
 
+		public static readonly Guid RefreshEvent = Guid.NewGuid();
+
 		private bool _isPackageMode;
 
 		private string _filterText = string.Empty;
@@ -27,6 +31,10 @@ namespace TpacTool
 		public List<AssetViewModel> AssetNodes { private set; get; }
 
 		public ICommand ClearFilterCommand { private set; get; }
+
+		public ICommand OpenInExplorerCommand { private set; get; }
+
+		public ICommand CopyPathCommand { private set; get; }
 
 		public string FilterText
 		{
@@ -89,9 +97,25 @@ namespace TpacTool
 
 		public IEnumerable<AssetViewModel> TreeItemSource { private set; get; }
 
+		private string _selectedFilePath;
+
+		public string SelectedFilePath
+		{
+			get => _selectedFilePath;
+			private set
+			{
+				_selectedFilePath = value;
+				RaisePropertyChanged("SelectedFilePath");
+			}
+		}
+
 		public AssetTreeViewModel(AssetManager manager, Guid typeGuid)
 		{
 			ClearFilterCommand = new RelayCommand(() => { FilterText = string.Empty; });
+			OpenInExplorerCommand = new RelayCommand(OpenInExplorer, () => !string.IsNullOrEmpty(SelectedFilePath));
+			CopyPathCommand = new RelayCommand(CopyPath, () => !string.IsNullOrEmpty(SelectedFilePath));
+
+			MessengerInstance.Register<object>(this, RefreshEvent, _ => UpdateAssetTree());
 
 			PackageNodes = new List<AssetViewModel>();
 			AssetNodes = new List<AssetViewModel>();
@@ -144,7 +168,42 @@ namespace TpacTool
 
 		public void SelectAsset(AssetItem assetItem)
 		{
+			SelectedFilePath = assetItem?.FilePath;
 			MessengerInstance.Send(assetItem, AssetSelectedEvent);
+		}
+
+		private void OpenInExplorer()
+		{
+			if (!string.IsNullOrEmpty(SelectedFilePath))
+			{
+				try
+				{
+					if (File.Exists(SelectedFilePath))
+					{
+						Process.Start("explorer.exe", "/select,\"" + SelectedFilePath + "\"");
+					}
+					else
+					{
+						var directory = Path.GetDirectoryName(SelectedFilePath);
+						if (Directory.Exists(directory))
+						{
+							Process.Start("explorer.exe", directory);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+		}
+
+		private void CopyPath()
+		{
+			if (!string.IsNullOrEmpty(SelectedFilePath))
+			{
+				Clipboard.SetText(SelectedFilePath);
+			}
 		}
 	}
 }

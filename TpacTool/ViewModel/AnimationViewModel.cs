@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,6 +7,8 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
+using CommonServiceLocator;
+using Ookii.Dialogs.Wpf;
 using TpacTool.IO;
 using TpacTool.IO.Assimp;
 using TpacTool.Lib;
@@ -48,7 +50,11 @@ namespace TpacTool
 
 		public ICommand ExportMorphCommand { private set; get; }
 
+		public ICommand ExportSingleAssetCommand { private set; get; }
+
 		private SaveFileDialog _saveFileDialog;
+
+		private SaveFileDialog _exportSaveFileDialog;
 
 		private SkeletalAnimation _animationAsset;
 
@@ -70,6 +76,7 @@ namespace TpacTool
 				RaisePropertyChanged(nameof(DefaultSkeleton));
 				RaisePropertyChanged(nameof(AnimationSkeletonName));
 				RaisePropertyChanged(nameof(AnimationBoneCount));
+				RaisePropertyChanged(nameof(ShowExportButton));
 			}
 			get => _animationAsset;
 		}
@@ -79,6 +86,7 @@ namespace TpacTool
 			set
 			{
 				_morphAsset = value;
+				RaisePropertyChanged(nameof(ShowExportButton));
 			}
 			get => _morphAsset;
 		}
@@ -204,6 +212,16 @@ namespace TpacTool
 				}
 				_saveFileDialog.Title = Resources.Model_Dialog_SelectExportFile;
 
+				_folderBrowserDialog = new VistaFolderBrowserDialog();
+
+				_exportSaveFileDialog = new SaveFileDialog();
+				_exportSaveFileDialog.CreatePrompt = false;
+				_exportSaveFileDialog.OverwritePrompt = true;
+				_exportSaveFileDialog.AddExtension = true;
+				_exportSaveFileDialog.Filter = "TPAC (*.tpac)|*.tpac";
+				_exportSaveFileDialog.FilterIndex = 1;
+				_exportSaveFileDialog.Title = Resources.SaveFileDialog_SelectSaveFile;
+
 				ChangeSkeletonCommand = new RelayCommand<string>(arg =>
 				{
 					SkeletonType.TryParse(arg, true, out SkeletonType result);
@@ -231,6 +249,8 @@ namespace TpacTool
 				ExportAnimationCommand = new RelayCommand(ExportAnimation);
 
 				ExportMorphCommand = new RelayCommand(ExportMorph);
+
+				ExportSingleAssetCommand = new RelayCommand(ExportSingleAsset);
 
 				MessengerInstance.Register<AssetItem>(this, AssetTreeViewModel.AssetSelectedEvent, asset =>
 				{
@@ -417,6 +437,43 @@ namespace TpacTool
 					AssimpModelExporter.ExportToFile(path, model, skeleton, animation, morph, option, assimpOption, FrameRate);
 				}
 				MessengerInstance.Send(string.Format("{0} exported", assetName), MainViewModel.StatusEvent);
+			}
+			}
+
+			private VistaFolderBrowserDialog _folderBrowserDialog;
+
+		public bool ShowExportButton
+		{
+			get
+			{
+				var asset = AnimationAsset as AssetItem ?? MorphAsset as AssetItem;
+				if (asset == null)
+					return false;
+				var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+				var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(asset));
+				return source.Any(p => p.Items.Count > 1);
+			}
+		}
+
+		private void ExportSingleAsset()
+		{
+			var asset = AnimationAsset as AssetItem ?? MorphAsset as AssetItem;
+			if (asset == null)
+				return;
+
+			var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+			var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(asset));
+			if (source.Any())
+			{
+				var assetPackage = source.First();
+				var suffix = AssetPackage.GetTypeSuffix(asset.Type);
+				_exportSaveFileDialog.FileName = asset.Name + suffix;
+				if (_exportSaveFileDialog.ShowDialog() == true)
+				{
+					var filePath = _exportSaveFileDialog.FileName;
+					assetPackage.ExportSingleAsset(asset, System.IO.Path.GetDirectoryName(filePath), System.IO.Path.GetFileNameWithoutExtension(filePath));
+					MessengerInstance.Send<object>(null, AssetTreeViewModel.RefreshEvent);
+				}
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using JetBrains.Annotations;
@@ -26,6 +26,7 @@ namespace TpacTool.Lib
 			RegisterType(typeof(Skeleton));
 			RegisterType(typeof(SkeletalAnimation));
 			RegisterType(typeof(Texture));
+			RegisterType(typeof(AnimationClip));
 #endif
 		}
 
@@ -85,6 +86,8 @@ namespace TpacTool.Lib
 				result = new SkeletalAnimation();
 			else if (typeGuid == Texture.TYPE_GUID)
 				result = new Texture();
+			else if (typeGuid == AnimationClip.TYPE_GUID)
+				result = new AnimationClip();
 			else
 			{
 				result = new AssetItem(typeGuid);

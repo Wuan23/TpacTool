@@ -59,6 +59,8 @@ namespace TpacTool
 			SimpleIoc.Default.Register<TextureViewModel>();
 			SimpleIoc.Default.Register<MaterialViewModel>();
 			SimpleIoc.Default.Register<AnimationViewModel>();
+			SimpleIoc.Default.Register<AnimationClipViewModel>();
+			SimpleIoc.Default.Register<SkeletonViewModel>();
 			SimpleIoc.Default.Register<OglPreviewViewModel>();
 			
 			ViewModelBase unused = null;
@@ -68,6 +70,7 @@ namespace TpacTool
 			unused = Texture;
 			unused = Material;
 			unused = Animation;
+			unused = AnimationClip;
 		}
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
@@ -83,6 +86,10 @@ namespace TpacTool
 		public MaterialViewModel Material => ServiceLocator.Current.GetInstance<MaterialViewModel>();
 
 		public AnimationViewModel Animation => ServiceLocator.Current.GetInstance<AnimationViewModel>();
+
+		public AnimationClipViewModel AnimationClip => ServiceLocator.Current.GetInstance<AnimationClipViewModel>();
+
+		public SkeletonViewModel Skeleton => ServiceLocator.Current.GetInstance<SkeletonViewModel>();
 
 		public static void Cleanup()
         {

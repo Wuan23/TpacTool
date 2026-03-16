@@ -1,4 +1,4 @@
-﻿<Page
+<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,6 +13,7 @@
     <Page.Resources>
         <TpacTool:BooleanFlipConverter x:Key="BooleanFlipConverter"/>
         <TpacTool:EnumEqualConverter x:Key="EnumEqualConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
     <Page.DataContext>
         <Binding Path="Model" Source="{StaticResource Locator}"/>
@@ -153,6 +154,7 @@
                             <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="24" Height="24" Margin="0,11,10,0"/>
                             -->
                             <Button VerticalAlignment="Top" Height="24" Margin="10,10,10,0" Content="{x:Static loc:Resources.Model_Export}" Command="{Binding ExportCommand, Mode=OneWay}" IsEnabled="{Binding CanExport, Mode=OneWay}"/>
+                            <Button VerticalAlignment="Top" Height="24" Margin="10,35,10,0" Content="{x:Static loc:Resources.Skeleton_ExportSingleAsset}" Command="{Binding ExportSingleAssetCommand, Mode=OneWay}" Visibility="{Binding ShowExportButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
                         </Grid>
                         <GroupBox Header="{x:Static loc:Resources.Model_Export_Type}">
                             <StackPanel>

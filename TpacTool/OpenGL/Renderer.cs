@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
@@ -77,6 +77,12 @@ namespace TpacTool
 		public bool EnableScaleInertia { set; get; } = true;
 
 		public bool ShowGrid { set; get; } = true;
+
+		public bool ShowSkeleton { set; get; } = true;
+
+		public bool ShowJoints { set; get; } = true;
+
+		public bool ShowColliders { set; get; } = true;
 
 		public float CameraDistance
 		{
@@ -527,6 +533,57 @@ namespace TpacTool
 
 			Disable(EnableCap.CullFace);
 
+			// 渲染骨骼（可单独控制显示）
+			if (ShowSkeleton && Skeletons.Count > 0)
+			{
+				var shader = ShaderManager.LinesShader;
+				shader.Use();
+				shader.SetViewProjectionMatrix(ref vpMatrix);
+				shader.SetWorldMatrix(ref worldMat);
+				foreach (var skeleton in Skeletons)
+				{
+					if (skeleton.Mesh != null)
+					{
+						shader.SetColor(new Vector4(skeleton.Color.R, skeleton.Color.G, skeleton.Color.B, skeleton.Color.A));
+						skeleton.Mesh.DrawLines();
+					}
+				}
+			}
+
+			// 渲染关节（可单独控制显示）
+			if (ShowJoints && JointMeshes.Count > 0)
+			{
+				var shader = ShaderManager.LinesShader;
+				shader.Use();
+				shader.SetViewProjectionMatrix(ref vpMatrix);
+				shader.SetWorldMatrix(ref worldMat);
+				foreach (var joint in JointMeshes)
+				{
+					if (joint.Mesh != null)
+					{
+						shader.SetColor(new Vector4(joint.Color.R, joint.Color.G, joint.Color.B, joint.Color.A));
+						joint.Mesh.DrawLines();
+					}
+				}
+			}
+
+			// 渲染碰撞体线框胶囊（可单独控制显示）
+			if (ShowColliders && ColliderMeshes.Count > 0)
+			{
+				var shader = ShaderManager.LinesShader;
+				shader.Use();
+				shader.SetViewProjectionMatrix(ref vpMatrix);
+				shader.SetWorldMatrix(ref worldMat);
+				foreach (var collider in ColliderMeshes)
+				{
+					if (collider.Mesh != null)
+					{
+						shader.SetColor(new Vector4(collider.Color.R, collider.Color.G, collider.Color.B, collider.Color.A));
+						collider.Mesh.DrawLines();
+					}
+				}
+			}
+
 			if (ShowGrid)
 			{
 				// has some bug when either GridX and GridY is odd number. make sure they are even numbers
@@ -620,6 +677,19 @@ namespace TpacTool
 
 			public float AlphaTestValue;
 		}
+
+		public struct RenderSkeleton
+		{
+			public MeshManager.OglMesh Mesh;
+
+			public OpenTK.Graphics.Color4 Color;
+		}
+
+		public List<RenderSkeleton> Skeletons { get; } = new List<RenderSkeleton>();
+
+		public List<RenderSkeleton> JointMeshes { get; } = new List<RenderSkeleton>();
+
+		public List<RenderSkeleton> ColliderMeshes { get; } = new List<RenderSkeleton>();
 
 		public void RenderImage(TextureManager.OglTexture texture)
 		{

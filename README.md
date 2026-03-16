@@ -1,16 +1,18 @@
 # TpacTool
 ### An unofficial asset explorer for *Mount&Blade II: Bannerlord*
 
-<a href="https://ci.appveyor.com/project/szszss/TpacTool">
-		<img src="https://img.shields.io/appveyor/build/szszss/TpacTool/master.svg" />
+Fork from [szszss/TpacTool](https://github.com/szszss/TpacTool), maintained by [hunharibo](https://github.com/hunharibo/TpacTool)
+
+<a href="https://ci.appveyor.com/project/hunharibo/TpacTool">
+		<img src="https://img.shields.io/appveyor/build/hunharibo/TpacTool/master.svg" />
 </a>
 
 <a href="../../releases/latest">
-		<img src="https://img.shields.io/github/v/release/szszss/TpacTool.svg?style=flat" />
+		<img src="https://img.shields.io/github/v/release/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
 <a href="../../blob/master/LICENSE">
-		<img src="https://img.shields.io/github/license/szszss/TpacTool.svg?style=flat" />
+		<img src="https://img.shields.io/github/license/hunharibo/TpacTool.svg?style=flat" />
 </a>
 
 -------------------
@@ -21,7 +23,7 @@ TpacTool is an open source asset explorer which can open TPAC format files, view
 
 TPAC (may be Taleworlds Package) is the asset archive format used by *Mount&Blade II: Bannerlord*. It was introduced at some time during the multiplayer beta, replacing the outdated BRF format of *Warband* and CRF format of early beta, and is still used today.
 
-Taleworlds hasn't released a tool to view or edit the TPAC format yet. Editing asset is necessary for Modding, so here comes TpacTool.
+This fork adds support for Bannerlord 1.3.x+ versions, skeleton visualization in OpenGL preview, AnimationClip viewing, and single asset export functionality.
 
 #### Legality
 
@@ -57,6 +59,23 @@ After loading, the list on the left side of the program window will be filled wi
 #### Screenshot
 
 <img src="https://raw.githubusercontent.com/szszss/TpacTool/master/.github/screenshot1.PNG" alt="screenshot1" />
+
+#### New Features (Fork)
+
+This fork includes the following enhancements:
+
+##### Skeleton Visualization
+View skeleton bones, joints, and colliders directly in the OpenGL preview. Toggle visibility of skeleton structure, joints, and collision bodies.
+
+<img src="assets/skeleton_preview.png" alt="skeleton_preview" width="800" />
+
+##### AnimationClip Viewer
+Browse and view AnimationClip assets with detailed information.
+
+<img src="assets/animationclip_viewer.png" alt="animationclip_viewer" width="800" />
+
+##### Single Asset Export
+Export any single asset (model, material, texture, skeleton, animation, etc.) as a separate .tpac file directly from the asset detail page.
 
 #### FAQ
 

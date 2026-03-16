@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="TpacTool.SkeletonIKJointPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TpacTool"
+      Title="SkeletonIKJoint"
+      DataContext="{Binding Path=Skeleton, Source={StaticResource Locator}}">
+    <Grid>
+        <Panel.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+        </Panel.Background>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Label>IK Joints</Label>
+                <Grid Margin="5,0,5,5">
+                    <ComboBox Text="Select A Joint" DisplayMemberPath="Name" ItemsSource="{Binding Path=SkeletonIKJoints, Mode=OneWay}" SelectedItem="{Binding SelectedIKJoint, Mode=TwoWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Name" />
+                    <TextBox IsReadOnly="False" Height="22" Margin="85,2,0,2" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Name, Mode=TwoWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Bone1" />
+                    <TextBox IsReadOnly="False" Height="22" Margin="85,2,0,2" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Bone1, Mode=TwoWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Bone2" />
+                    <TextBox IsReadOnly="False" Height="22" Margin="85,2,0,2" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Bone2, Mode=TwoWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Position" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,2,0,2" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Position, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Entity Space&#xD;&#xA; Rotation" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,2,0,2" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.EntitySpaceRotation, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Twist&#xD;&#xA;Upper Limit" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.TwistUpperLimit, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Twist&#xD;&#xA;Lower Limit" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.TwistLowerLimit, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Swing 1 Limit" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Swing1Limit, Mode=OneWay}" />
+                </Grid>
+                <Grid>
+                    <Label Content="Swing 2 Limit" />
+                    <TextBox IsReadOnly="True" Height="22" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding SelectedIKJoint.Swing2Limit, Mode=OneWay}" />
+                </Grid>
+                <Grid Margin="0,0,0,10">
+                    <Button VerticalAlignment="Top" Height="24" Margin="10,10,10,0" Content="Remove IK Joint" IsEnabled="True" Command="{Binding RemoveIKJointCommand, Mode=OneWay}" />
+                </Grid>
+                <Grid Margin="0,0,0,10">
+                    <Button VerticalAlignment="Top" Height="24" Margin="10,10,10,0" Content="Add IK Joint" IsEnabled="True" Command="{Binding AddIKJointCommand, Mode=OneWay}" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

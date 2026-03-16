@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using JetBrains.Annotations;
 
@@ -53,7 +53,11 @@ namespace TpacTool.Lib
 					new ExternalLoader<SkeletonDefinitionData>((SkeletonDefinitionData) Definition.Data.Clone());
 			}
 
-			// TODO: clone user data
+			if (UserData?.Data != null)
+			{
+				clone.UserData =
+					new ExternalLoader<SkeletonUserData>((SkeletonUserData) UserData.Data.Clone());
+			}
 
 			clone.CloneDo(this);
 			return clone;

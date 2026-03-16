@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="TpacTool.AnimationClipPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TpacTool"
+      xmlns:TpacTool="clr-namespace:TpacTool"
+      xmlns:loc="clr-namespace:TpacTool.Properties"
+      Title="{x:Static loc:Resources.AnimationClip_Page_Title}"
+      Width="800"
+      DataContext="{Binding Path=AnimationClip, Source={StaticResource Locator}}">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Panel.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+        </Panel.Background>
+        <StackPanel Orientation="Horizontal">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" MinWidth="380">
+                <StackPanel Margin="5">
+                    <!-- Basic Info -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_Info}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Name}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding ClipName, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Duration}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding ClipDuration, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Priority}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding ClipPriority, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_BlendIn}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding ClipBlendInPeriod, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_BlendOut}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding ClipBlendOutPeriod, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_DoNotInterpolate}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="90,0,0,0" VerticalAlignment="Center" Text="{Binding ClipDoNotInterpolate, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="{x:Static loc:Resources.Skeleton_Operations}" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Button Height="26" Margin="5,2" Content="{x:Static loc:Resources.Skeleton_CopyProperties}" Command="{Binding CopyPropertiesCommand, Mode=OneWay}" />
+                            <Button Height="26" Margin="5,2" Content="{x:Static loc:Resources.Skeleton_PasteProperties}" Command="{Binding PastePropertiesCommand, Mode=OneWay}" IsEnabled="{Binding CanPasteProperties, Mode=OneWay}" />
+                            <Grid Margin="5,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Height="26" Grid.Column="0" Margin="0,0,2,0" Content="{x:Static loc:Resources.Skeleton_SaveTPAC}" Command="{Binding SaveTPACCommand, Mode=OneWay}" />
+                                <Button Height="26" Grid.Column="1" Margin="2,0,0,0" Content="{x:Static loc:Resources.Skeleton_SaveTPACAs}" Command="{Binding SaveTPACAsCommand, Mode=OneWay}" />
+                            </Grid>
+                            <Button Height="26" Margin="5,2" Content="{x:Static loc:Resources.Skeleton_ExportSingleAsset}" Command="{Binding ExportSingleAssetCommand, Mode=OneWay}" Visibility="{Binding ShowExportButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Animation Source -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_AnimationSource}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Animation}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipAnimationName, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_AnimationResolved}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="100,0,0,0" VerticalAlignment="Center" Text="{Binding ClipAnimationResolvedName, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Source1}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipSource1, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Source2}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipSource2, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Source1Name}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="95,0,0,0" VerticalAlignment="Center" Text="{Binding ClipSource1Name, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Source2Name}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="95,0,0,0" VerticalAlignment="Center" Text="{Binding ClipSource2Name, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_UnknownClipName}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="115,0,0,0" VerticalAlignment="Center" Text="{Binding ClipUnknownClipName, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_GeneratedIndex}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="95,0,0,0" VerticalAlignment="Center" Text="{Binding ClipGeneratedIndex, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Parameters -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_Parameters}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Param1}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipParam1, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Param2}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipParam2, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_Param3}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="70,0,0,0" VerticalAlignment="Center" Text="{Binding ClipParam3, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_LeftHandPose}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding ClipLeftHandPose, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_RightHandPose}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding ClipRightHandPose, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Step Points -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_StepPoints}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_StepPoints}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="80,0,0,0" VerticalAlignment="Center" Text="{Binding ClipStepPoints, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Sound & Voice -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_SoundVoice}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_SoundCode}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="50,0,0,0" VerticalAlignment="Center" Text="{Binding ClipSoundCode, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_VoiceCode}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="50,0,0,0" VerticalAlignment="Center" Text="{Binding ClipVoiceCode, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_FacialAnimationId}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="100,0,0,0" VerticalAlignment="Center" Text="{Binding ClipFacialAnimationId, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Actions -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_Actions}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_BlendsWith}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="75,0,0,0" VerticalAlignment="Center" Text="{Binding ClipBlendsWithAction, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_ContinueWith}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="85,0,0,0" VerticalAlignment="Center" Text="{Binding ClipContinueWithAction, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <Label Content="{x:Static loc:Resources.AnimationClip_CombatParameter}" FontSize="11" />
+                                <TextBox IsReadOnly="True" Height="20" Margin="90,0,0,0" VerticalAlignment="Center" Text="{Binding ClipCombatParameterId, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Flags -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_Flags}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <ItemsControl ItemsSource="{Binding ClipFlags}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="5,2" FontSize="11" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Clip Usages -->
+                    <Expander Header="{x:Static loc:Resources.AnimationClip_Usages}" Margin="0,0,0,5" IsExpanded="True">
+                        <StackPanel Margin="0,5,0,0">
+                            <ItemsControl ItemsSource="{Binding ClipUsages}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Gray" BorderThickness="1" Margin="5,2" Padding="5">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" FontSize="11" />
+                                                <TextBlock Text="{Binding UnknownUInt}" FontSize="10" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Operations -->
+                </StackPanel>
+            </ScrollViewer>
+            <Frame MinWidth="380" />
+        </StackPanel>
+    </Grid>
+</Page>

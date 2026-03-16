@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -33,6 +33,8 @@ namespace TpacTool.Lib
 
 		[NotNull]
 		public string Name { set; get; }
+
+		public string FilePath { get; internal set; }
 
 		public bool Invalid { internal set; get; }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OpenTK;
 using TpacTool.Lib;
@@ -12,6 +12,10 @@ namespace TpacTool
 		public static readonly Guid PreviewAssetEvent = Guid.NewGuid();
 
 		public static readonly Guid PreviewTextureEvent = Guid.NewGuid();
+
+		public static readonly Guid PreviewSkeletonEvent = Guid.NewGuid();
+
+		public static readonly Guid PreviewAnimationEvent = Guid.NewGuid();
 
 		public const float MAX_GRID_LENGTH = 256;
 
@@ -102,6 +106,8 @@ namespace TpacTool
 
 		public bool IsImageMode => PreviewTarget == OglPreviewPage.Mode.Image;
 
+		public bool IsSkeletonMode => PreviewTarget == OglPreviewPage.Mode.Skeleton;
+
 		public int LightMode
 		{
 			set
@@ -181,6 +187,15 @@ namespace TpacTool
 
 		public bool ClearOnNextTick { set; get; }
 
+		private bool _showSkeleton = true;
+		public bool ShowSkeleton { get => _showSkeleton; set { _showSkeleton = value; RaisePropertyChanged(nameof(ShowSkeleton)); } }
+
+		private bool _showJoints = true;
+		public bool ShowJoints { get => _showJoints; set { _showJoints = value; RaisePropertyChanged(nameof(ShowJoints)); } }
+
+		private bool _showColliders = true;
+		public bool ShowColliders { get => _showColliders; set { _showColliders = value; RaisePropertyChanged(nameof(ShowColliders)); } }
+
 		public int GridLineX { set; get; }
 
 		public int GridLineY { set; get; }
@@ -188,6 +203,12 @@ namespace TpacTool
 		#region Model
 
 		public Mesh[] Meshes { private set; get; } = emptyMeshes;
+
+		#endregion
+
+		#region Skeleton
+
+		public Skeleton Skeleton { private set; get; }
 
 		#endregion
 
@@ -211,6 +232,8 @@ namespace TpacTool
 			{
 				MessengerInstance.Register<List<Mesh>>(this, PreviewAssetEvent, OnPreviewModel);
 				MessengerInstance.Register<Texture>(this, PreviewTextureEvent, SetRenderTexture);
+				MessengerInstance.Register<Skeleton>(this, PreviewSkeletonEvent, SetRenderSkeleton);
+				MessengerInstance.Register<(SkeletalAnimation, Skeleton)>(this, PreviewAnimationEvent, OnPreviewAnimation);
 				MessengerInstance.Register<object>(this, MainViewModel.CleanupEvent, OnCleanup);
 			}
 		}
@@ -235,6 +258,17 @@ namespace TpacTool
 			{
 				Console.WriteLine(e);
 				SetRenderMeshes();
+			}
+		}
+
+		private void OnPreviewAnimation((SkeletalAnimation, Skeleton) data)
+		{
+			var (animation, skeleton) = data;
+			if (skeleton != null)
+			{
+				SetPreviewTarget(OglPreviewPage.Mode.Skeleton);
+				Skeleton = skeleton;
+				RaisePropertyChanged(nameof(Skeleton));
 			}
 		}
 
@@ -443,7 +477,15 @@ namespace TpacTool
 				RaisePropertyChanged(nameof(PreviewTarget));
 				RaisePropertyChanged(nameof(IsModelMode));
 				RaisePropertyChanged(nameof(IsImageMode));
+				RaisePropertyChanged(nameof(IsSkeletonMode));
 			}
+		}
+
+		public void SetRenderSkeleton(Skeleton skeleton)
+		{
+			SetPreviewTarget(OglPreviewPage.Mode.Skeleton);
+			Skeleton = skeleton;
+			RaisePropertyChanged(nameof(Skeleton));
 		}
 
 		private void RefocusCenter()

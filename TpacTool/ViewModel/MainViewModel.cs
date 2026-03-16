@@ -44,6 +44,10 @@ namespace TpacTool
 
 		private static readonly Uri Uri_Page_Morph = new Uri("../Page/MorphPage.xaml", UriKind.Relative);
 
+		private static readonly Uri Uri_Page_Skeleton = new Uri("../Page/SkeletonPage.xaml", UriKind.Relative);
+
+		private static readonly Uri Uri_Page_AnimationClip = new Uri("../Page/AnimationClipPage.xaml", UriKind.Relative);
+
 		public static readonly Guid CleanupEvent = Guid.NewGuid();
 
 		public static readonly Guid StatusEvent = Guid.NewGuid();
@@ -85,6 +89,8 @@ namespace TpacTool
 		public Uri AssetPanelUri { set; get; }
 
 		public Uri AssetPreviewUri { set; get; }
+
+		public string SelectedAssetPath { set; get; }
 
 		public string StatusMsg
 		{
@@ -279,6 +285,7 @@ namespace TpacTool
 			{
 				Resources.Asset_Type_MorphAnimation,
 				Resources.Asset_Type_SkeletalAnimation,
+				Resources.Asset_Type_AnimationClip,
 				Resources.Asset_Type_Skeleton,
 				Resources.Asset_Type_PhysicsShape,
 				Resources.Asset_Type_Model,
@@ -293,6 +300,7 @@ namespace TpacTool
 			{
 				MorphAnimation.TYPE_GUID,
 				SkeletalAnimation.TYPE_GUID,
+				AnimationClip.TYPE_GUID,
 				Skeleton.TYPE_GUID,
 				PhysicsShape.TYPE_GUID,
 				Metamesh.TYPE_GUID,
@@ -392,10 +400,15 @@ namespace TpacTool
 			{
 				AssetPanelUri = null;
 				AssetPreviewUri = null;
+				SelectedAssetPath = null;
 				RaisePropertyChanged("AssetPanelUri");
 				RaisePropertyChanged("AssetPreviewUri");
+				RaisePropertyChanged("SelectedAssetPath");
 				return;
 			}
+
+			SelectedAssetPath = asset.FilePath;
+			RaisePropertyChanged("SelectedAssetPath");
 
 			bool hasContent = false;
 
@@ -447,6 +460,27 @@ namespace TpacTool
 				if (AssetPanelUri != Uri_Page_Morph)
 				{
 					AssetPanelUri = Uri_Page_Morph;
+					AssetPreviewUri = Uri_Page_BlankPreview;
+				}
+				hasContent = true;
+			}
+
+			if (asset is Skeleton skeleton)
+			{
+				if (AssetPanelUri != Uri_Page_Skeleton)
+				{
+					AssetPanelUri = Uri_Page_Skeleton;
+					AssetPreviewUri = Uri_Page_OglPreview;
+				}
+				MessengerInstance.Send(skeleton, OglPreviewViewModel.PreviewSkeletonEvent);
+				hasContent = true;
+			}
+
+			if (asset is AnimationClip animationClip)
+			{
+				if (AssetPanelUri != Uri_Page_AnimationClip)
+				{
+					AssetPanelUri = Uri_Page_AnimationClip;
 					AssetPreviewUri = Uri_Page_BlankPreview;
 				}
 				hasContent = true;

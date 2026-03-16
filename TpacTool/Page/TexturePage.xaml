@@ -1,4 +1,4 @@
-﻿<Page x:Class="TpacTool.TexturePage"
+<Page x:Class="TpacTool.TexturePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,6 +10,7 @@
       Title="TexturePage">
     <Page.Resources>
         <local:IntThresholdConverter x:Key="IntThresholdConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
     <Page.DataContext>
@@ -74,6 +75,7 @@
                 <Expander Header="{x:Static loc:Resources.Texture_Export}" Margin="0" VerticalAlignment="Top" IsExpanded="True">
                     <StackPanel>
                         <Button VerticalAlignment="Top" Height="24" Margin="10,10,10,0" Content="{x:Static loc:Resources.Texture_Export}" IsEnabled="{Binding IsExportable}" Command="{Binding ExportCommand, Mode=OneWay}"/>
+                        <Button VerticalAlignment="Top" Height="24" Margin="10,5,10,0" Content="{x:Static loc:Resources.Skeleton_ExportSingleAsset}" Command="{Binding ExportSingleAssetCommand, Mode=OneWay}" Visibility="{Binding ShowExportButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
                         <Label Content="{Binding SuggestedFormat, Mode=OneWay}" Margin="10,10,10,5"/>
                     </StackPanel>
                 </Expander>

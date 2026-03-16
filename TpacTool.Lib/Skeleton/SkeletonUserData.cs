@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -321,6 +321,95 @@ namespace TpacTool.Lib
 			public float CollisionMaxRadius { set; get; }
 
 			public float CollisionRadius { set; get; }
+		}
+
+		public override ExternalData Clone()
+		{
+			var clone = new SkeletonUserData()
+			{
+				BoundingBoxPadding = this.BoundingBoxPadding,
+				BoundingBoxMin = this.BoundingBoxMin,
+				BoundingBoxMax = this.BoundingBoxMax,
+				Usage = this.Usage,
+				UnknownString = this.UnknownString,
+				UnknownGuid = this.UnknownGuid,
+				UnknownInt = this.UnknownInt
+			};
+			clone.CloneDo(this);
+
+			clone.Bodies.Capacity = this.Bodies.Count;
+			foreach (var body in this.Bodies)
+			{
+				clone.Bodies.Add(new Body
+				{
+					BoneName = body.BoneName,
+					EnableBlend = body.EnableBlend,
+					Type = body.Type,
+					BodyType = body.BodyType,
+					Mass = body.Mass,
+					RagdollPosition1 = body.RagdollPosition1,
+					RagdollPosition2 = body.RagdollPosition2,
+					RagdollRadius = body.RagdollRadius,
+					CollisionPosition1 = body.CollisionPosition1,
+					CollisionPosition2 = body.CollisionPosition2,
+					CollisionRadius = body.CollisionRadius,
+					CollisionMaxRadius = body.CollisionMaxRadius
+				});
+			}
+
+			clone.Constraints.Capacity = this.Constraints.Count;
+			foreach (var constraint in this.Constraints)
+			{
+				SkeletonUserData.Constraint clonedConstraint;
+				switch (constraint)
+				{
+					case HingeJointConstraint hinge:
+						clonedConstraint = new HingeJointConstraint
+						{
+							UnknownFloat1 = hinge.UnknownFloat1,
+							UnknownFloat2 = hinge.UnknownFloat2
+						};
+						break;
+					case D6JointConstraint d6:
+						clonedConstraint = new D6JointConstraint
+						{
+							AxisLockX = d6.AxisLockX,
+							AxisLockY = d6.AxisLockY,
+							AxisLockZ = d6.AxisLockZ,
+							TwistLock = d6.TwistLock,
+							Swing1Lock = d6.Swing1Lock,
+							Swing2Lock = d6.Swing2Lock,
+							AxisLimit = d6.AxisLimit,
+							TwistLowerLimit = d6.TwistLowerLimit,
+							TwistUpperLimit = d6.TwistUpperLimit,
+							Swing1Limit = d6.Swing1Limit,
+							Swing2Limit = d6.Swing2Limit
+						};
+						break;
+					case IKConstraint ik:
+						clonedConstraint = new IKConstraint
+						{
+							UnknownUint = ik.UnknownUint,
+							Swing1Limit = ik.Swing1Limit,
+							Swing2Limit = ik.Swing2Limit,
+							TwistLowerLimit = ik.TwistLowerLimit,
+							TwistUpperLimit = ik.TwistUpperLimit
+						};
+						break;
+					default:
+						continue;
+				}
+
+				clonedConstraint.Name = constraint.Name;
+				clonedConstraint.Bone1 = constraint.Bone1;
+				clonedConstraint.Bone2 = constraint.Bone2;
+				clonedConstraint.EntitySpaceRotation = constraint.EntitySpaceRotation;
+				clonedConstraint.Position = constraint.Position;
+
+				clone.Constraints.Add(clonedConstraint);
+			}
+
+			return clone;
 		}
 	}
 }

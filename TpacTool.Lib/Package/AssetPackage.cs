@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,6 +14,28 @@ namespace TpacTool.Lib
 
 		private Guid _guid;
 
+		private static readonly Dictionary<Guid, string> TypeToSuffix = new Dictionary<Guid, string>
+		{
+			{ Skeleton.TYPE_GUID, "_skl" },
+			{ SkeletalAnimation.TYPE_GUID, "_anm" },
+			{ AnimationClip.TYPE_GUID, "_anm" },
+			{ OptimizedAnimation.TYPE_GUID, "_anm" },
+			{ Geometry.TYPE_GUID, "_geo" },
+			{ Texture.TYPE_GUID, "_tex" },
+			{ Material.TYPE_GUID, "_mtl" },
+			{ MeshEditData.TYPE_GUID, "_msh" },
+			{ MorphAnimation.TYPE_GUID, "_mrh" },
+			{ ParticleEffectData.TYPE_GUID, "_prt" },
+			{ PhysicsShape.TYPE_GUID, "_phy" },
+			{ Shader.TYPE_GUID, "_shd" },
+			{ Metamesh.TYPE_GUID, "_met" },
+		};
+
+		public static string GetTypeSuffix(Guid typeGuid)
+		{
+			return TypeToSuffix.TryGetValue(typeGuid, out var suffix) ? suffix : "_unk";
+		}
+
 		public Guid Guid
 		{
 			set
@@ -26,6 +48,22 @@ namespace TpacTool.Lib
 		}
 
 		public bool IsGuidLocked { internal set; get; }
+
+		public void ExportSingleAsset(AssetItem asset, string directory)
+		{
+			ExportSingleAsset(asset, directory, null);
+		}
+
+		public void ExportSingleAsset(AssetItem asset, string directory, string customFileName)
+		{
+			var suffix = GetTypeSuffix(asset.Type);
+			var fileName = (customFileName ?? asset.Name + suffix) + ".tpac";
+			var filePath = Path.Combine(directory, fileName);
+
+			var newPackage = new AssetPackage(Guid.NewGuid());
+			newPackage.Items.Add(asset);
+			newPackage.Save(filePath);
+		}
 
 		public bool HeaderLoaded { private set; get; }
 
@@ -139,6 +177,7 @@ namespace TpacTool.Lib
 					assetVersion = stream.ReadUInt32();
 				assetItem.Version = assetVersion;
 				assetItem.Name = stream.ReadSizedString();
+				assetItem.FilePath = File.FullName;
 
 				var metadataSize = stream.ReadUInt64();
                 var metadataStartPos = stream.BaseStream.Position;

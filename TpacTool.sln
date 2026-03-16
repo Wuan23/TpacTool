@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TpacTool.Lib", "TpacTool.Lib\TpacTool.Lib.csproj", "{0C383548-C203-4CF6-A221-FD524465F485}"
 EndProject
@@ -38,9 +38,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","PunctuationLead"]}
-		SolutionGuid = {966D861B-A600-4B87-B2CD-339588EBEE62}
-		RESX_SortFileContentOnSave = True
 		RESX_SaveFilesImmediatelyUponChange = False
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {966D861B-A600-4B87-B2CD-339588EBEE62}
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","PunctuationLead"]}
 	EndGlobalSection
 EndGlobal

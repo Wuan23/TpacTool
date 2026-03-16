@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ using System.Windows.Media.Media3D;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
+using CommonServiceLocator;
 using TpacTool.IO;
 using TpacTool.IO.Assimp;
 using TpacTool.Lib;
@@ -34,6 +35,18 @@ namespace TpacTool
 		private SaveFileDialog _saveFileDialog;
 
 		public Metamesh Asset { private set; get; }
+
+		public bool ShowExportButton
+		{
+			get
+			{
+				if (Asset == null)
+					return false;
+				var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+				var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(Asset));
+				return source.Any(p => p.Items.Count > 1);
+			}
+		}
 
 		private SkeletonType _skeletonType = SkeletonType.Human;
 
@@ -197,6 +210,10 @@ namespace TpacTool
 
 		public ICommand ExportCommand { private set; get; }
 
+		public ICommand ExportSingleAssetCommand { private set; get; }
+
+		private SaveFileDialog _exportSaveFileDialog;
+
 		public List<Skeleton> Skeletons => _skeletons;
 
 		public int SelectedSkeletonIndex { set; get; } = -1;
@@ -230,6 +247,14 @@ namespace TpacTool
 				}
 				_saveFileDialog.Title = Resources.Model_Dialog_SelectExportFile;
 
+				_exportSaveFileDialog = new SaveFileDialog();
+				_exportSaveFileDialog.CreatePrompt = false;
+				_exportSaveFileDialog.OverwritePrompt = true;
+				_exportSaveFileDialog.AddExtension = true;
+				_exportSaveFileDialog.Filter = "TPAC (*.tpac)|*.tpac";
+				_exportSaveFileDialog.FilterIndex = 1;
+				_exportSaveFileDialog.Title = Resources.SaveFileDialog_SelectSaveFile;
+
 				ChangeSkeletonCommand = new RelayCommand<string>(arg =>
 				{
 					SkeletonType.TryParse(arg, true, out SkeletonType result);
@@ -257,6 +282,8 @@ namespace TpacTool
 				});
 
 				ExportCommand = new RelayCommand(Export);
+
+				ExportSingleAssetCommand = new RelayCommand(ExportSingleAsset);
 
 				MessengerInstance.Register<AssetItem>(this, AssetTreeViewModel.AssetSelectedEvent, OnSelectAsset);
 				MessengerInstance.Register<IEnumerable<Skeleton>>(this, UpdateSkeletonListEvent, skeletons =>
@@ -385,6 +412,27 @@ namespace TpacTool
 				else
 					ModelExporter.ExportToFile(path, Asset, skeleton, option);
 				MessengerInstance.Send(string.Format("{0} exported", Asset.Name), MainViewModel.StatusEvent);
+			}
+		}
+
+		private void ExportSingleAsset()
+		{
+			if (Asset == null)
+				return;
+
+			var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+			var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(Asset));
+			if (source.Any())
+			{
+				var assetPackage = source.First();
+				var suffix = AssetPackage.GetTypeSuffix(Asset.Type);
+				_exportSaveFileDialog.FileName = Asset.Name + suffix;
+				if (_exportSaveFileDialog.ShowDialog() == true)
+				{
+					var filePath = _exportSaveFileDialog.FileName;
+					assetPackage.ExportSingleAsset(Asset, System.IO.Path.GetDirectoryName(filePath), System.IO.Path.GetFileNameWithoutExtension(filePath));
+					MessengerInstance.Send<object>(null, AssetTreeViewModel.RefreshEvent);
+				}
 			}
 		}
 

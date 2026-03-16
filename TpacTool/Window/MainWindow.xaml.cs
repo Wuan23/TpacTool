@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +78,18 @@ namespace TpacTool
 		private void Window_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			Messenger.Default.Send<(MouseButton, Point)>((e.ChangedButton, e.GetPosition(this)), MouseUpUserEvent);
+		}
+
+		private void PathText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ClickCount == 2)
+			{
+				var text = PathText.Text;
+				if (!string.IsNullOrEmpty(text))
+				{
+					Clipboard.SetText(text);
+				}
+			}
 		}
 	}
 }

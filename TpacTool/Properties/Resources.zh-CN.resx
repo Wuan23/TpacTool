@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -138,6 +138,12 @@
   <data name="Animation_Export" xml:space="preserve">
     <value>导出</value>
   </data>
+  <data name="Animation_ExportToFbx" xml:space="preserve">
+    <value>导出为FBX</value>
+  </data>
+  <data name="Animation_ExportToSingleTpac" xml:space="preserve">
+    <value>导出为单独TPAC</value>
+  </data>
   <data name="Animation_Export_FrameRate" xml:space="preserve">
     <value>帧率</value>
   </data>
@@ -193,6 +199,129 @@
   <data name="Animation_Skeleton_Default" xml:space="preserve">
     <value>默认</value>
   </data>
+  <data name="AnimationClip_Info" xml:space="preserve">
+    <value>动画剪辑</value>
+  </data>
+  <data name="AnimationClip_Duration" xml:space="preserve">
+    <value>持续时间:</value>
+  </data>
+  <data name="AnimationClip_Priority" xml:space="preserve">
+    <value>优先级:</value>
+  </data>
+  <data name="AnimationClip_Animation" xml:space="preserve">
+    <value>动画:</value>
+  </data>
+  <data name="AnimationClip_BlendIn" xml:space="preserve">
+    <value>混合进入:</value>
+  </data>
+  <data name="AnimationClip_BlendOut" xml:space="preserve">
+    <value>混合退出:</value>
+  </data>
+  <data name="AnimationClip_LeftHandPose" xml:space="preserve">
+    <value>左手姿势:</value>
+  </data>
+  <data name="AnimationClip_RightHandPose" xml:space="preserve">
+    <value>右手姿势:</value>
+  </data>
+  <data name="AnimationClip_DoNotInterpolate" xml:space="preserve">
+    <value>不插值:</value>
+  </data>
+  <data name="AnimationClip_SoundCode" xml:space="preserve">
+    <value>音效:</value>
+  </data>
+  <data name="AnimationClip_VoiceCode" xml:space="preserve">
+    <value>配音:</value>
+  </data>
+  <data name="AnimationClip_FacialAnimationId" xml:space="preserve">
+    <value>面部动画:</value>
+  </data>
+  <data name="AnimationClip_BlendsWith" xml:space="preserve">
+    <value>混合动作:</value>
+  </data>
+  <data name="AnimationClip_ContinueWith" xml:space="preserve">
+    <value>继续动作:</value>
+  </data>
+  <data name="AnimationClip_CombatParameter" xml:space="preserve">
+    <value>战斗参数:</value>
+  </data>
+  <data name="AnimationClip_UsageCount" xml:space="preserve">
+    <value>用法数量:</value>
+  </data>
+  <data name="AnimationClip_Info" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="AnimationClip_Name" xml:space="preserve">
+    <value>名称:</value>
+  </data>
+  <data name="AnimationClip_AnimationSource" xml:space="preserve">
+    <value>动画源</value>
+  </data>
+  <data name="AnimationClip_AnimationResolved" xml:space="preserve">
+    <value>动画名称:</value>
+  </data>
+  <data name="AnimationClip_Source1" xml:space="preserve">
+    <value>源1:</value>
+  </data>
+  <data name="AnimationClip_Source2" xml:space="preserve">
+    <value>源2:</value>
+  </data>
+  <data name="AnimationClip_Source1Name" xml:space="preserve">
+    <value>源1名称:</value>
+  </data>
+  <data name="AnimationClip_Source2Name" xml:space="preserve">
+    <value>源2名称:</value>
+  </data>
+  <data name="AnimationClip_UnknownClipName" xml:space="preserve">
+    <value>未知名称:</value>
+  </data>
+  <data name="AnimationClip_GeneratedIndex" xml:space="preserve">
+    <value>生成索引:</value>
+  </data>
+  <data name="AnimationClip_Parameters" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="AnimationClip_Param1" xml:space="preserve">
+    <value>参数1:</value>
+  </data>
+  <data name="AnimationClip_Param2" xml:space="preserve">
+    <value>参数2:</value>
+  </data>
+  <data name="AnimationClip_Param3" xml:space="preserve">
+    <value>参数3:</value>
+  </data>
+  <data name="AnimationClip_StepPoints" xml:space="preserve">
+    <value>步进点</value>
+  </data>
+  <data name="AnimationClip_SoundVoice" xml:space="preserve">
+    <value>音效与配音</value>
+  </data>
+  <data name="AnimationClip_Actions" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="AnimationClip_Flags" xml:space="preserve">
+    <value>标志</value>
+  </data>
+  <data name="AnimationClip_Usages" xml:space="preserve">
+    <value>剪辑用法</value>
+  </data>
+  <data name="Skeleton_Operations" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Skeleton_CopyProperties" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Skeleton_PasteProperties" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Skeleton_SaveTPAC" xml:space="preserve">
+    <value>保存TPAC</value>
+  </data>
+  <data name="Skeleton_SaveTPACAs" xml:space="preserve">
+    <value>另存为TPAC</value>
+  </data>
+  <data name="SaveFileDialog_SelectSaveFile" xml:space="preserve">
+    <value>选择保存文件</value>
+  </data>
   <data name="AssetTree_FilterRemove_Tooltip" xml:space="preserve">
     <value>取消检索</value>
   </data>
@@ -228,6 +357,9 @@
   </data>
   <data name="Asset_Type_SkeletalAnimation" xml:space="preserve">
     <value>动作</value>
+  </data>
+  <data name="Asset_Type_AnimationClip" xml:space="preserve">
+    <value>动画剪辑</value>
   </data>
   <data name="Asset_Type_Skeleton" xml:space="preserve">
     <value>骨骼</value>
@@ -696,5 +828,77 @@
   </data>
   <data name="Texture_System_Flags" xml:space="preserve">
     <value>系统标志</value>
+  </data>
+  <data name="Skeleton_Page_Title" xml:space="preserve">
+    <value>骨骼</value>
+  </data>
+  <data name="Skeleton_Properties" xml:space="preserve">
+    <value>骨骼属性</value>
+  </data>
+  <data name="Skeleton_Info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Skeleton_SubItems" xml:space="preserve">
+    <value>骨骼子项</value>
+  </data>
+  <data name="Skeleton_Name" xml:space="preserve">
+    <value>名称:</value>
+  </data>
+  <data name="Skeleton_Type" xml:space="preserve">
+    <value>类型:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxMin" xml:space="preserve">
+    <value>边界盒最小:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxMax" xml:space="preserve">
+    <value>边界盒最大:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxPadding" xml:space="preserve">
+    <value>边界盒内边距:</value>
+  </data>
+  <data name="Skeleton_ShowBoneBody" xml:space="preserve">
+    <value>显示骨骼实体</value>
+  </data>
+  <data name="Skeleton_ShowD6Joint" xml:space="preserve">
+    <value>显示D6关节</value>
+  </data>
+  <data name="Skeleton_ShowIKJoint" xml:space="preserve">
+    <value>显示IK关节</value>
+  </data>
+  <data name="Skeleton_ExportSingleAsset" xml:space="preserve">
+    <value>导出为单独文件</value>
+  </data>
+  <data name="SkeletonCollision_Page_Title" xml:space="preserve">
+    <value>碰撞体</value>
+  </data>
+  <data name="SkeletonCollision_List" xml:space="preserve">
+    <value>碰撞体列表</value>
+  </data>
+  <data name="SkeletonCollision_Add" xml:space="preserve">
+    <value>添加碰撞体</value>
+  </data>
+  <data name="SkeletonCollision_Remove" xml:space="preserve">
+    <value>移除碰撞体</value>
+  </data>
+  <data name="Preview_Skeleton" xml:space="preserve">
+    <value>骨骼</value>
+  </data>
+  <data name="Preview_Joint" xml:space="preserve">
+    <value>关节</value>
+  </data>
+  <data name="Preview_Collider" xml:space="preserve">
+    <value>碰撞体</value>
+  </data>
+  <data name="Preview_Skeleton_Tooltip" xml:space="preserve">
+    <value>显示/隐藏骨骼实体</value>
+  </data>
+  <data name="Preview_Joint_Tooltip" xml:space="preserve">
+    <value>显示/隐藏关节轴</value>
+  </data>
+  <data name="Preview_Collider_Tooltip" xml:space="preserve">
+    <value>显示/隐藏碰撞体线框</value>
+  </data>
+  <data name="AnimationClip_Page_Title" xml:space="preserve">
+    <value>动画剪辑</value>
   </data>
 </root>

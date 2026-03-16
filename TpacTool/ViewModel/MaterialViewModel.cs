@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
+using CommonServiceLocator;
 using Ookii.Dialogs.Wpf;
 using TpacTool.IO;
 using TpacTool.Lib;
@@ -47,6 +49,18 @@ namespace TpacTool
 
 		public Material Asset { private set; get; }
 
+		public bool ShowExportButton
+		{
+			get
+			{
+				if (Asset == null)
+					return false;
+				var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+				var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(Asset));
+				return source.Any(p => p.Items.Count > 1);
+			}
+		}
+
 		public Shader Shader
 		{
 			get
@@ -80,6 +94,10 @@ namespace TpacTool
 		public bool IsExportable { set; get; } = false;
 
 		public ICommand ExportCommand { private set; get; }
+
+		public ICommand ExportSingleAssetCommand { private set; get; }
+
+		private SaveFileDialog _exportSaveFileDialog;
 
 		public bool ShowEmptySlots
 		{
@@ -141,6 +159,16 @@ namespace TpacTool
 					});
 
 				ExportCommand = new RelayCommand(OnExport);
+
+				ExportSingleAssetCommand = new RelayCommand(ExportSingleAsset);
+
+				_exportSaveFileDialog = new SaveFileDialog();
+				_exportSaveFileDialog.CreatePrompt = false;
+				_exportSaveFileDialog.OverwritePrompt = true;
+				_exportSaveFileDialog.AddExtension = true;
+				_exportSaveFileDialog.Filter = "TPAC (*.tpac)|*.tpac";
+				_exportSaveFileDialog.FilterIndex = 1;
+				_exportSaveFileDialog.Title = Resources.SaveFileDialog_SelectSaveFile;
 			}
 		}
 
@@ -226,6 +254,27 @@ namespace TpacTool
 				MessengerInstance.Send(string.Format("Export {0} ...", Asset.Name), MainViewModel.StatusEvent);
 				MaterialExporter.ExportToFolder(path, Asset, option);
 				MessengerInstance.Send(string.Format("{0} exported", Asset.Name), MainViewModel.StatusEvent);
+			}
+		}
+
+		private void ExportSingleAsset()
+		{
+			if (Asset == null)
+				return;
+
+			var mainVm = ServiceLocator.Current.GetInstance<MainViewModel>();
+			var source = mainVm.AssetManager.LoadedPackages.Where(p => p.Items.Contains(Asset));
+			if (source.Any())
+			{
+				var assetPackage = source.First();
+				var suffix = AssetPackage.GetTypeSuffix(Asset.Type);
+				_exportSaveFileDialog.FileName = Asset.Name + suffix;
+				if (_exportSaveFileDialog.ShowDialog() == true)
+				{
+					var filePath = _exportSaveFileDialog.FileName;
+					assetPackage.ExportSingleAsset(Asset, System.IO.Path.GetDirectoryName(filePath), System.IO.Path.GetFileNameWithoutExtension(filePath));
+					MessengerInstance.Send<object>(null, AssetTreeViewModel.RefreshEvent);
+				}
 			}
 		}
 

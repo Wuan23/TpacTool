@@ -1,4 +1,4 @@
-﻿using OpenTK.Wpf;
+using OpenTK.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +88,81 @@ namespace TpacTool
 			get => (Mesh[]) GetValue(MeshesProperty);
 			set => SetValue(MeshesProperty, value);
 		}
+
+		public static readonly DependencyProperty SkeletonProperty = DependencyProperty.Register(
+			nameof(Skeleton), typeof(Lib.Skeleton),
+			typeof(OglPreviewPage),
+			new PropertyMetadata(null, OnSkeletonChanged));
+
+		private static void OnSkeletonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var obj = (OglPreviewPage)d;
+			obj._shouldUpdate = true;
+			obj._configChanged = true;
+		}
+
+		public Lib.Skeleton Skeleton
+		{
+			get => (Lib.Skeleton) GetValue(SkeletonProperty);
+			set => SetValue(SkeletonProperty, value);
+		}
+
+		#region ShowSkeleton
+		public static readonly DependencyProperty ShowSkeletonProperty = DependencyProperty.Register(
+			nameof(ShowSkeleton), typeof(bool),
+			typeof(OglPreviewPage),
+			new PropertyMetadata(true, OnShowSkeletonChanged));
+
+		private static void OnShowSkeletonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var obj = (OglPreviewPage)d;
+			obj._configChanged = true;
+		}
+
+		public bool ShowSkeleton
+		{
+			get => (bool)GetValue(ShowSkeletonProperty);
+			set => SetValue(ShowSkeletonProperty, value);
+		}
+		#endregion
+
+		#region ShowJoints
+		public static readonly DependencyProperty ShowJointsProperty = DependencyProperty.Register(
+			nameof(ShowJoints), typeof(bool),
+			typeof(OglPreviewPage),
+			new PropertyMetadata(true, OnShowJointsChanged));
+
+		private static void OnShowJointsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var obj = (OglPreviewPage)d;
+			obj._configChanged = true;
+		}
+
+		public bool ShowJoints
+		{
+			get => (bool)GetValue(ShowJointsProperty);
+			set => SetValue(ShowJointsProperty, value);
+		}
+		#endregion
+
+		#region ShowColliders
+		public static readonly DependencyProperty ShowCollidersProperty = DependencyProperty.Register(
+			nameof(ShowColliders), typeof(bool),
+			typeof(OglPreviewPage),
+			new PropertyMetadata(true, OnShowCollidersChanged));
+
+		private static void OnShowCollidersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var obj = (OglPreviewPage)d;
+			obj._configChanged = true;
+		}
+
+		public bool ShowColliders
+		{
+			get => (bool)GetValue(ShowCollidersProperty);
+			set => SetValue(ShowCollidersProperty, value);
+		}
+		#endregion
 		#endregion
 
 		#region PreviewTarget
@@ -395,6 +470,34 @@ namespace TpacTool
 				Mode = BindingMode.OneWay
 			});
 
+			SetBinding(SkeletonProperty, new Binding()
+			{
+				Source = DataContext,
+				Path = new PropertyPath(nameof(Skeleton)),
+				Mode = BindingMode.OneWay
+			});
+
+			SetBinding(ShowSkeletonProperty, new Binding()
+			{
+				Source = DataContext,
+				Path = new PropertyPath(nameof(ShowSkeleton)),
+				Mode = BindingMode.TwoWay
+			});
+
+			SetBinding(ShowJointsProperty, new Binding()
+			{
+				Source = DataContext,
+				Path = new PropertyPath(nameof(ShowJoints)),
+				Mode = BindingMode.TwoWay
+			});
+
+			SetBinding(ShowCollidersProperty, new Binding()
+			{
+				Source = DataContext,
+				Path = new PropertyPath(nameof(ShowColliders)),
+				Mode = BindingMode.TwoWay
+			});
+
 			SetBinding(PreviewTargetProperty, new Binding()
 			{
 				Source = DataContext,
@@ -622,6 +725,119 @@ namespace TpacTool
 						}
 					}
 					_shouldUpdate = false;
+				}
+
+				_renderer.Render(delta);
+			}
+
+			if (PreviewTarget == Mode.Skeleton)
+			{
+				if (_renderer.Meshes.Count > 0)
+					_renderer.Meshes.Clear();
+
+				_renderer.ShowSkeleton = ShowSkeleton;
+				_renderer.ShowJoints = ShowJoints;
+				_renderer.ShowColliders = ShowColliders;
+
+				_renderer.Skeletons.Clear();
+				_renderer.JointMeshes.Clear();
+				_renderer.ColliderMeshes.Clear();
+
+				var skeleton = Skeleton;
+				if (skeleton?.Definition?.Data != null)
+				{
+					// 骨骼实体（线段）
+					if (ShowSkeleton)
+					{
+						var skeletonMesh = MeshManager.CreateSkeletonMesh(skeleton.Definition.Data);
+						if (skeletonMesh != null)
+						{
+							var rs = new Renderer.RenderSkeleton();
+							rs.Mesh = skeletonMesh;
+							rs.Color = new OpenTK.Graphics.Color4(1f, 1f, 0f, 1f);
+							_renderer.Skeletons.Add(rs);
+						}
+					}
+
+					// 关节（轴指示器：位置+旋转）
+					if (ShowJoints && skeleton.UserData?.Data != null)
+					{
+						var matrices = skeleton.Definition.Data.CreateBoneMatrices();
+						foreach (var constraint in skeleton.UserData.Data.Constraints)
+						{
+							// 根据 Bone1 找骨骼索引
+							var bone1Index = skeleton.Definition.Data.Bones.FindIndex(b => b.Name == constraint.Bone1);
+							if (bone1Index < 0)
+								continue;
+
+							var bone1Mat = matrices[bone1Index];
+							// 将关节局部坐标转换到世界坐标
+							var localPos = constraint.Position;
+							var worldPos = System.Numerics.Vector3.Transform(localPos, bone1Mat);
+							var worldRot = System.Numerics.Quaternion.Normalize(System.Numerics.Quaternion.CreateFromRotationMatrix(bone1Mat)) * constraint.EntitySpaceRotation;
+
+							var jointMesh = MeshManager.CreateJointAxisMesh(worldPos, worldRot, 0.08f);
+							if (jointMesh != null)
+							{
+								var rj = new Renderer.RenderSkeleton();
+								rj.Mesh = jointMesh;
+								rj.Color = new OpenTK.Graphics.Color4(0.4f, 0.8f, 1f, 1f);
+								_renderer.JointMeshes.Add(rj);
+							}
+						}
+					}
+
+					// 碰撞体（线框胶囊）
+					if (ShowColliders && skeleton.UserData?.Data != null)
+					{
+						var matrices = skeleton.Definition.Data.CreateBoneMatrices();
+						foreach (var body in skeleton.UserData.Data.Bodies)
+						{
+							// 根据骨骼名找索引
+							var boneIndex = skeleton.Definition.Data.Bones.FindIndex(b => b.Name == body.BoneName);
+							if (boneIndex < 0)
+								continue;
+
+							var boneMat = matrices[boneIndex];
+							// 将碰撞体局部坐标转换到世界坐标
+							var localP1 = body.CollisionPosition1;
+							var localP2 = body.CollisionPosition2;
+							var p1 = System.Numerics.Vector3.Transform(localP1, boneMat);
+							var p2 = System.Numerics.Vector3.Transform(localP2, boneMat);
+							var radius = Math.Max(body.CollisionRadius, 0.001f);
+
+							var capsuleMesh = MeshManager.CreateCapsuleWireframe(p1, p2, radius, 12);
+							if (capsuleMesh != null)
+							{
+								var rc = new Renderer.RenderSkeleton();
+								rc.Mesh = capsuleMesh;
+								rc.Color = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
+								_renderer.ColliderMeshes.Add(rc);
+							}
+						}
+					}
+				}
+
+				if (_configChanged)
+				{
+					_configChanged = false;
+					var point = CameraTarget;
+					if (_firstTimeUpdateCamera)
+					{
+						_firstTimeUpdateCamera = false;
+						_renderer.InitCamera((float)point.X, (float)point.Y, (float)point.Z, 45f, 25f, 5);
+					}
+					else
+					{
+						_renderer.SetCameraTarget((float)point.X, (float)point.Y, (float)point.Z);
+					}
+					_renderer.EnableInertia = EnableInertia;
+					_renderer.EnableTransitionInertia = EnableTransitionInertia;
+					_renderer.EnableScaleInertia = EnableScaleInertia;
+					_renderer.ShowGrid = ShowGridLines;
+					_renderer.GridX = GridLineX;
+					_renderer.GridY = GridLineY;
+					_renderer.SetLight(LightMode, ModelBoundingBox);
 				}
 
 				_renderer.Render(delta);

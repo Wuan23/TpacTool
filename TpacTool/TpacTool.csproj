@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Resource.Embedder.2.2.0\build\Resource.Embedder.props" Condition="Exists('..\packages\Resource.Embedder.2.2.0\build\Resource.Embedder.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -19,6 +19,7 @@
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -33,7 +34,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,6 +60,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Properties\Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>TpacTool.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AssimpNet, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0d51b391f59f42a6, processorArchitecture=MSIL">
@@ -138,6 +141,9 @@
     <Compile Include="OpenGL\Renderer.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />
     <Compile Include="OpenGL\TextureManager.cs" />
+    <Compile Include="Page\AnimationClipPage.xaml.cs">
+      <DependentUpon>AnimationClipPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page\AnimationPage.xaml.cs">
       <DependentUpon>AnimationPage.xaml</DependentUpon>
     </Compile>
@@ -164,6 +170,7 @@
     <Compile Include="Util\SkeletonType.cs" />
     <Compile Include="Util\StringEqualConverter.cs" />
     <Compile Include="Util\TypeHelper.cs" />
+    <Compile Include="ViewModel\AnimationClipViewModel.cs" />
     <Compile Include="ViewModel\AnimationViewModel.cs" />
     <Compile Include="ViewModel\AssetTreeViewModel.cs" />
     <Compile Include="ViewModel\AssetViewModel.cs" />
@@ -172,6 +179,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MaterialViewModel.cs" />
     <Compile Include="ViewModel\ModelViewModel.cs" />
+    <Compile Include="ViewModel\SkeletonViewModel.cs" />
     <Compile Include="ViewModel\TextureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Window\AboutWindow.xaml.cs">
@@ -195,6 +203,10 @@
     <Compile Include="Page\TexturePage.xaml.cs">
       <DependentUpon>TexturePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Page\AnimationClipPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Page\AnimationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,6 +260,29 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Page\ModelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\SkeletonPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\SkeletonBodyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\SkeletonD6JointPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\SkeletonIKJointPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="Page\SkeletonCollisionPage.xaml.cs">
+      <DependentUpon>SkeletonCollisionPage.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Page\SkeletonCollisionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -311,7 +346,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

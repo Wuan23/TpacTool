@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -138,6 +138,12 @@
   <data name="Animation_Export" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="Animation_ExportToFbx" xml:space="preserve">
+    <value>Export to FBX</value>
+  </data>
+  <data name="Animation_ExportToSingleTpac" xml:space="preserve">
+    <value>Export as Single TPAC</value>
+  </data>
   <data name="Animation_Export_FrameRate" xml:space="preserve">
     <value>Frame Rate</value>
   </data>
@@ -193,6 +199,129 @@ The exporting frame rate should match the frame rate of the modeling software yo
   <data name="Animation_Skeleton_Default" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="AnimationClip_Info" xml:space="preserve">
+    <value>Animation Clip</value>
+  </data>
+  <data name="AnimationClip_Duration" xml:space="preserve">
+    <value>Duration:</value>
+  </data>
+  <data name="AnimationClip_Priority" xml:space="preserve">
+    <value>Priority:</value>
+  </data>
+  <data name="AnimationClip_Animation" xml:space="preserve">
+    <value>Animation:</value>
+  </data>
+  <data name="AnimationClip_BlendIn" xml:space="preserve">
+    <value>Blend In:</value>
+  </data>
+  <data name="AnimationClip_BlendOut" xml:space="preserve">
+    <value>Blend Out:</value>
+  </data>
+  <data name="AnimationClip_LeftHandPose" xml:space="preserve">
+    <value>Left Hand:</value>
+  </data>
+  <data name="AnimationClip_RightHandPose" xml:space="preserve">
+    <value>Right Hand:</value>
+  </data>
+  <data name="AnimationClip_DoNotInterpolate" xml:space="preserve">
+    <value>No Interpolate:</value>
+  </data>
+  <data name="AnimationClip_SoundCode" xml:space="preserve">
+    <value>Sound:</value>
+  </data>
+  <data name="AnimationClip_VoiceCode" xml:space="preserve">
+    <value>Voice:</value>
+  </data>
+  <data name="AnimationClip_FacialAnimationId" xml:space="preserve">
+    <value>Facial Anim:</value>
+  </data>
+  <data name="AnimationClip_BlendsWith" xml:space="preserve">
+    <value>Blends With:</value>
+  </data>
+  <data name="AnimationClip_ContinueWith" xml:space="preserve">
+    <value>Continue With:</value>
+  </data>
+  <data name="AnimationClip_CombatParameter" xml:space="preserve">
+    <value>Combat Param:</value>
+  </data>
+  <data name="AnimationClip_UsageCount" xml:space="preserve">
+    <value>Usages:</value>
+  </data>
+  <data name="AnimationClip_Info" xml:space="preserve">
+    <value>Basic Info</value>
+  </data>
+  <data name="AnimationClip_Name" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="AnimationClip_AnimationSource" xml:space="preserve">
+    <value>Animation Source</value>
+  </data>
+  <data name="AnimationClip_AnimationResolved" xml:space="preserve">
+    <value>Animation Name:</value>
+  </data>
+  <data name="AnimationClip_Source1" xml:space="preserve">
+    <value>Source1:</value>
+  </data>
+  <data name="AnimationClip_Source2" xml:space="preserve">
+    <value>Source2:</value>
+  </data>
+  <data name="AnimationClip_Source1Name" xml:space="preserve">
+    <value>Source1 Name:</value>
+  </data>
+  <data name="AnimationClip_Source2Name" xml:space="preserve">
+    <value>Source2 Name:</value>
+  </data>
+  <data name="AnimationClip_UnknownClipName" xml:space="preserve">
+    <value>Unknown Name:</value>
+  </data>
+  <data name="AnimationClip_GeneratedIndex" xml:space="preserve">
+    <value>Generated Index:</value>
+  </data>
+  <data name="AnimationClip_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="AnimationClip_Param1" xml:space="preserve">
+    <value>Param1:</value>
+  </data>
+  <data name="AnimationClip_Param2" xml:space="preserve">
+    <value>Param2:</value>
+  </data>
+  <data name="AnimationClip_Param3" xml:space="preserve">
+    <value>Param3:</value>
+  </data>
+  <data name="AnimationClip_StepPoints" xml:space="preserve">
+    <value>Step Points</value>
+  </data>
+  <data name="AnimationClip_SoundVoice" xml:space="preserve">
+    <value>Sound &amp; Voice</value>
+  </data>
+  <data name="AnimationClip_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="AnimationClip_Flags" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="AnimationClip_Usages" xml:space="preserve">
+    <value>Clip Usages</value>
+  </data>
+  <data name="Skeleton_Operations" xml:space="preserve">
+    <value>Operations</value>
+  </data>
+  <data name="Skeleton_CopyProperties" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Skeleton_PasteProperties" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Skeleton_SaveTPAC" xml:space="preserve">
+    <value>Save TPAC</value>
+  </data>
+  <data name="Skeleton_SaveTPACAs" xml:space="preserve">
+    <value>Save TPAC As</value>
+  </data>
+  <data name="SaveFileDialog_SelectSaveFile" xml:space="preserve">
+    <value>Select Save File</value>
+  </data>
   <data name="AssetTree_FilterRemove_Tooltip" xml:space="preserve">
     <value>Clear filter pattern</value>
   </data>
@@ -228,6 +357,9 @@ The exporting frame rate should match the frame rate of the modeling software yo
   </data>
   <data name="Asset_Type_SkeletalAnimation" xml:space="preserve">
     <value>Animation</value>
+  </data>
+  <data name="Asset_Type_AnimationClip" xml:space="preserve">
+    <value>Animation Clip</value>
   </data>
   <data name="Asset_Type_Skeleton" xml:space="preserve">
     <value>Skeleton</value>
@@ -697,5 +829,77 @@ The exporting frame rate should match the frame rate of the modeling software yo
   </data>
   <data name="Texture_System_Flags" xml:space="preserve">
     <value>System Flags</value>
+  </data>
+  <data name="Skeleton_Page_Title" xml:space="preserve">
+    <value>Skeleton</value>
+  </data>
+  <data name="Skeleton_Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Skeleton_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Skeleton_SubItems" xml:space="preserve">
+    <value>Sub Items</value>
+  </data>
+  <data name="Skeleton_Name" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Skeleton_Type" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxMin" xml:space="preserve">
+    <value>Min Bounding Box:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxMax" xml:space="preserve">
+    <value>Max Bounding Box:</value>
+  </data>
+  <data name="Skeleton_BoundingBoxPadding" xml:space="preserve">
+    <value>Padding:</value>
+  </data>
+  <data name="Skeleton_ShowBoneBody" xml:space="preserve">
+    <value>Bone Body</value>
+  </data>
+  <data name="Skeleton_ShowD6Joint" xml:space="preserve">
+    <value>D6 Joint</value>
+  </data>
+  <data name="Skeleton_ShowIKJoint" xml:space="preserve">
+    <value>IK Joint</value>
+  </data>
+  <data name="Skeleton_ExportSingleAsset" xml:space="preserve">
+    <value>Export as Single File</value>
+  </data>
+  <data name="SkeletonCollision_Page_Title" xml:space="preserve">
+    <value>Collision Body</value>
+  </data>
+  <data name="SkeletonCollision_List" xml:space="preserve">
+    <value>Collision List</value>
+  </data>
+  <data name="SkeletonCollision_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SkeletonCollision_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Preview_Skeleton" xml:space="preserve">
+    <value>Skeleton</value>
+  </data>
+  <data name="Preview_Joint" xml:space="preserve">
+    <value>Joint</value>
+  </data>
+  <data name="Preview_Collider" xml:space="preserve">
+    <value>Collider</value>
+  </data>
+  <data name="Preview_Skeleton_Tooltip" xml:space="preserve">
+    <value>Show/Hide Skeleton</value>
+  </data>
+  <data name="Preview_Joint_Tooltip" xml:space="preserve">
+    <value>Show/Hide Joint Constraints</value>
+  </data>
+  <data name="Preview_Collider_Tooltip" xml:space="preserve">
+    <value>Show/Hide Collider Wireframe</value>
+  </data>
+  <data name="AnimationClip_Page_Title" xml:space="preserve">
+    <value>Animation Clip</value>
   </data>
 </root>
