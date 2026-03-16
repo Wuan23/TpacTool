@@ -36,8 +36,6 @@ Browse and view AnimationClip assets with detailed information.
 ##### Single Asset Export
 Export any single asset (model, material, texture, skeleton, animation, etc.) as a separate .tpac file directly from the asset detail page.
 
-<img src="assets/single_asset_export.png" alt="single_asset_export" width="800" />
-
 #### License
 
 This project is licensed under the MIT License. See [LICENSE](../../blob/master/LICENSE) for details.
