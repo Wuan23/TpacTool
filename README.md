@@ -11,7 +11,7 @@
 </a>
 
 <a href="https://github.com/Wuan23/TpacTool/releases/latest">
-	<img src="https://img.shields.io/github/v/release/hunharibo/TpacTool.svg?style=flat" />
+	<img src="https://img.shields.io/github/v/release/Wuan23/TpacTool.svg?style=flat" />
 </a>
 
 <a href="https://github.com/Wuan23/TpacTool/blob/master/LICENSE">
