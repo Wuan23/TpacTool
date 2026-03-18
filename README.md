@@ -25,6 +25,9 @@ Fork from [szszss/TpacTool](https://github.com/szszss/TpacTool), maintained by [
 
 This fork includes the following enhancements:
 
+##### Single Asset Export
+Export any single asset (model, material, texture, skeleton, animation, etc.) as a separate .tpac file directly from the asset detail page.
+
 ##### Skeleton Visualization
 View skeleton bones, joints, and colliders directly in the OpenGL preview. Toggle visibility of skeleton structure, joints, and collision bodies.
 
@@ -34,9 +37,6 @@ View skeleton bones, joints, and colliders directly in the OpenGL preview. Toggl
 Browse and view AnimationClip assets with detailed information.
 
 <img src="assets/animationclip_viewer.png" alt="animationclip_viewer" width="800" />
-
-##### Single Asset Export
-Export any single asset (model, material, texture, skeleton, animation, etc.) as a separate .tpac file directly from the asset detail page.
 
 #### License
 
