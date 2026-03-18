@@ -6,9 +6,6 @@
 
 ---
 
-<a href="https://ci.appveyor.com/project/hunharibo/TpacTool">
-	<img src="https://img.shields.io/appveyor/build/hunharibo/TpacTool/master.svg" />
-</a>
 
 <a href="https://github.com/Wuan23/TpacTool/releases/latest">
 	<img src="https://img.shields.io/github/v/release/Wuan23/TpacTool.svg?style=flat" />
